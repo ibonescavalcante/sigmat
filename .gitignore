@@ -1,0 +1,40 @@
+.env
+#app/core/Database.php
+# ========================
+# Arquivos de configuração locais
+# ========================
+/.clinerules/
+
+
+# ========================
+# Docker (ignorar configs locais)
+# ========================
+.docker
+docker/
+
+# ========================
+# Arquivos temporários e de cache
+# ========================
+*.log
+*.tmp
+*.swp
+*.txt
+
+# ========================
+# Arquivos PDF (não versionar uploads nem documentos locais)
+# ========================
+*.pdf
+/uploads
+/uploads/documentos
+
+# ========================
+# Dependências (não versionar)
+# ========================
+/vendor/
+/node_modules/
+
+# ========================
+# IDEs e editores (opcional)
+# ========================
+.vscode/
+.idea/

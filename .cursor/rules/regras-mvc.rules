@@ -1,0 +1,128 @@
+REGRA: PADRÃO DE ARQUITETURA MVC + SERVICE + REPOSITORY
+
+Toda vez que for criada ou modificada uma entidade no projeto, o código DEVE seguir obrigatoriamente a arquitetura abaixo:
+
+1. SEPARAÇÃO DE RESPONSABILIDADES
+
+NUNCA misturar responsabilidades em uma única classe.
+
+A estrutura obrigatória é:
+
+- Model (Entidade)
+- Repository (Acesso a dados)
+- Service (Regra de negócio)
+- Controller (Camada de entrada)
+
+---
+
+2. MODEL (app/models)
+
+- Deve conter APENAS propriedades da entidade
+- NÃO deve conter SQL
+- NÃO deve conter regras de negócio
+- NÃO deve acessar banco de dados
+- Deve representar apenas os dados
+
+Exemplo:
+class Usuario {
+    public int $id;
+    public string $nome;
+    public string $email;
+    public ?string $telefone;
+    public string $perfil;
+    public bool $ativo;
+}
+
+---
+
+3. REPOSITORY (app/repositories)
+
+- Responsável EXCLUSIVAMENTE pelo acesso ao banco
+- Deve conter queries SQL (SELECT, INSERT, UPDATE, DELETE)
+- NÃO deve conter regras de negócio
+- NÃO deve validar regras complexas
+- Deve usar PDO já existente no projeto
+
+Exemplo de responsabilidades:
+- buscarPorId
+- buscarPorEmail
+- listar
+- criar
+- atualizar
+
+---
+
+4. SERVICE (app/services)
+
+- Responsável pelas regras de negócio
+- Deve validar dados
+- Deve aplicar lógica do sistema
+- Deve orquestrar chamadas ao Repository
+- Pode lançar exceções em caso de erro
+
+Exemplo:
+- validar email
+- verificar duplicidade
+- autenticar usuário
+- regras de senha
+- regras de perfil
+
+---
+
+5. CONTROLLER (app/controllers)
+
+- Responsável por lidar com requisições HTTP
+- NÃO deve conter SQL
+- NÃO deve conter regra de negócio complexa
+- Deve chamar o Service
+- Deve retornar View ou resposta
+
+---
+
+6. PROIBIÇÕES
+
+É PROIBIDO:
+
+- Colocar SQL dentro de Models
+- Colocar regra de negócio dentro de Controllers
+- Criar métodos estáticos para tudo (preferir instância quando possível)
+- Misturar autenticação, validação e persistência na mesma classe
+
+---
+
+7. PADRÃO DE NOMES
+
+- Usuario (Model)
+- UsuarioRepository
+- UsuarioService
+- UsuarioController
+
+---
+
+8. ORGANIZAÇÃO DE ARQUIVOS
+
+Cada entidade DEVE gerar:
+
+app/models/Usuario.php
+app/repositories/UsuarioRepository.php
+app/services/UsuarioService.php
+app/controllers/UsuarioController.php
+
+---
+
+9. FLUXO OBRIGATÓRIO
+
+Controller → Service → Repository → Banco
+
+---
+
+10. QUALIDADE DO CÓDIGO
+
+- Código deve ser limpo e legível
+- Evitar duplicação
+- Usar tipagem quando possível
+- Seguir PSR-4 (se aplicável)
+
+---
+
+Se qualquer código gerado não seguir essas regras, ele deve ser considerado inválido e deve ser reescrito.

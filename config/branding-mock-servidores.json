@@ -1,0 +1,44 @@
+[
+    {
+        "id": 1,
+        "matricula": "GM0001",
+        "nome_completo": "João da Silva",
+        "cargo": "Guarda Municipal",
+        "graduacao": "Inspetor",
+        "data_admissao": "2018-03-15",
+        "situacao": "Ativo",
+
+        "cpf": "123.456.789-01",
+        "rg": "1234567 SSP/PA",
+        "data_nascimento": "1985-07-22",
+        "naturalidade": "Parauapebas/PA",
+        "filiacao": "José da Silva e Maria da Silva",
+
+        "tipo_sanguineo": "O",
+        "fator_rh": "+",
+
+        "foto_3x4": "joao_silva.jpg",
+        "assinatura": "joao_silva_assinatura.png"
+    },
+    {
+        "id": 2,
+        "matricula": "AMT0001",
+        "nome_completo": "Maria Oliveira Santos",
+        "cargo": "Agente Municipal de Trânsito",
+        "graduacao": "Agente Classe I",
+        "data_admissao": "2020-08-10",
+        "situacao": "Ativo",
+
+        "cpf": "987.654.321-00",
+        "rg": "7654321 SSP/PA",
+        "data_nascimento": "1990-11-05",
+        "naturalidade": "Marabá/PA",
+        "filiacao": "Carlos Santos e Ana Oliveira",
+
+        "tipo_sanguineo": "A",
+        "fator_rh": "-",
+
+        "foto_3x4": "maria_santos.jpg",
+        "assinatura": "maria_santos_assinatura.png"
+    }
+]

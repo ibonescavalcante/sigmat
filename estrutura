@@ -1,0 +1,63 @@
+app/
+│
+├── core/                 # Infraestrutura base do sistema
+│   ├── Database.php
+│   ├── Controller.php
+│   ├── Router.php
+│   └── Request.php
+│
+├── models/               # Entidades (somente dados)
+│   └── Usuario.php
+│
+├── repositories/         # Acesso ao banco (SQL / PDO)
+│   └── UsuarioRepository.php
+│
+├── services/             # Regras de negócio
+│   └── UsuarioService.php
+│
+├── controllers/          # Entrada da aplicação (HTTP)
+│   └── UsuarioController.php
+│
+├── views/                # Interface (HTML / PHP)
+│   ├── layout/
+│   │   └── main.php
+│   │
+│   ├── usuario/
+│   │   ├── login.php
+│   │   ├── listar.php
+│   │   ├── criar.php
+│   │   └── editar.php
+│   │
+│   └── errors/
+│       └── 404.php
+│
+├── middlewares/          # (Opcional) autenticação, permissões
+│   └── AuthMiddleware.php
+│
+├── helpers/              # Funções auxiliares
+│   └── functions.php
+│
+└── config/               # Configurações
+    ├── database.php
+    └── app.php
+
+
+public/                   # Pasta pública (acessada pelo navegador)
+│
+├── index.php             # Front Controller (entrada única)
+├── assets/
+│   ├── css/
+│   ├── js/
+│   └── images/
+│
+└── .htaccess             # Rotas amigáveis (Apache)
+
+
+storage/                  # Arquivos gerados
+│
+├── logs/
+├── cache/
+└── uploads/
+
+
+vendor/                   # Dependências (Composer)
