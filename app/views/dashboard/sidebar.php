@@ -2,7 +2,7 @@
 use App\models\Usuario;
 
 $uidSidebar = (int) ($_SESSION['user']['id'] ?? 0);
-$mostrarMenuConfiguracoes =1;// $uidSidebar > 0 && Usuario::perfilPorId($uidSidebar) === 'administrador';
+$mostrarMenuConfiguracoes = $uidSidebar > 0 && Usuario::perfilPorId($uidSidebar) === 'administrador';
 ?>
 <!-- Sidebar: coluna flex + painel sticky para não rolar com o conteúdo -->
 <div class="col-lg-2 col-md-3 p-0 d-none d-md-flex flex-column border">
