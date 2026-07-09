@@ -8,7 +8,7 @@ use PDO;
 class Usuario
 {
     /** Valores do enum sigmat.perfil_usuario (ajuste se o DDL do banco for diferente). */
-    public const PERFIS_VALIDOS = ['comissao', 'administrador', 'visualizador'];
+    public const PERFIS_VALIDOS = ['operador', 'administrador', 'visualizador'];
 
     public static function criar($dados)
     {

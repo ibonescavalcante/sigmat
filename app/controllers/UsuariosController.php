@@ -16,7 +16,7 @@ class UsuariosController extends Controller
     public function index()
     {
         $perfisForm = [
-            ['value' => 'comissao', 'label' => 'Comissão avaliadora'],
+            ['value' => 'operador', 'label' => 'Operador'],
             ['value' => 'administrador', 'label' => 'Administrador'],
             ['value' => 'visualizador', 'label' => 'Visualizador'],
         ];
@@ -52,7 +52,7 @@ class UsuariosController extends Controller
         }
 
         $nome = isset($input['nome']) ? trim((string) $input['nome']) : '';
-        $email = isset($input['email']) ? strtolower(trim((string) $input['email'])) : '';
+        $usuario = $this->extrairLoginUsuario($input);
         $telefone = isset($input['telefone']) ? trim((string) $input['telefone']) : '';
         $perfil = isset($input['perfil']) ? strtolower(trim((string) $input['perfil'])) : '';
         $senha = isset($input['senha']) ? (string) $input['senha'] : '';
@@ -65,7 +65,7 @@ class UsuariosController extends Controller
             exit;
         }
 
-        if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if ($usuario === '' || !filter_var($usuario, FILTER_VALIDATE_EMAIL)) {
             http_response_code(422);
             echo json_encode(['erro' => 'E-mail inválido.']);
             exit;
@@ -89,7 +89,7 @@ class UsuariosController extends Controller
             exit;
         }
 
-        if (Usuario::usuarioJaCadastrado($email)) {
+        if (Usuario::usuarioJaCadastrado($usuario)) {
             http_response_code(422);
             echo json_encode(['erro' => 'Este e-mail já está cadastrado.']);
             exit;
@@ -98,7 +98,7 @@ class UsuariosController extends Controller
         try {
             $id = Usuario::criarUsuarioPainel([
                 'nome'     => $nome,
-                'email'    => $email,
+                'usuario'  => $usuario,
                 'telefone' => $telefone,
                 'perfil'   => $perfil,
                 'senha'    => $senha,
@@ -158,7 +158,7 @@ class UsuariosController extends Controller
         }
 
         $nome = isset($input['nome']) ? trim((string) $input['nome']) : '';
-        $email = isset($input['email']) ? strtolower(trim((string) $input['email'])) : '';
+        $usuario = $this->extrairLoginUsuario($input);
         $telefone = isset($input['telefone']) ? trim((string) $input['telefone']) : '';
         $perfil = isset($input['perfil']) ? strtolower(trim((string) $input['perfil'])) : '';
         $senha = isset($input['senha']) ? (string) $input['senha'] : '';
@@ -176,7 +176,7 @@ class UsuariosController extends Controller
             exit;
         }
 
-        if ($email === '' || !filter_var($email, FILTER_VALIDATE_EMAIL)) {
+        if ($usuario === '' || !filter_var($usuario, FILTER_VALIDATE_EMAIL)) {
             http_response_code(422);
             echo json_encode(['erro' => 'E-mail inválido.']);
             exit;
@@ -201,7 +201,7 @@ class UsuariosController extends Controller
             }
         }
 
-        if (Usuario::usuarioJaCadastrado($email, $id)) {
+        if (Usuario::usuarioJaCadastrado($usuario, $id)) {
             http_response_code(422);
             echo json_encode(['erro' => 'Este e-mail já está cadastrado.']);
             exit;
@@ -210,7 +210,7 @@ class UsuariosController extends Controller
         try {
             $ok = Usuario::atualizarUsuarioPainel($id, [
                 'nome'              => $nome,
-                'email'             => $email,
+                'usuario'           => $usuario,
                 'telefone'          => $telefone,
                 'perfil'            => $perfil,
                 'ativo'             => $ativo,
@@ -260,5 +260,20 @@ class UsuariosController extends Controller
             echo json_encode(['erro' => 'Sem permissão.']);
             exit;
         }
+    }
+
+    /**
+     * @param array<string, mixed> $input
+     */
+    private function extrairLoginUsuario(array $input): string
+    {
+        if (isset($input['usuario']) && trim((string) $input['usuario']) !== '') {
+            return strtolower(trim((string) $input['usuario']));
+        }
+        if (isset($input['email']) && trim((string) $input['email']) !== '') {
+            return strtolower(trim((string) $input['email']));
+        }
+
+        return '';
     }
 }

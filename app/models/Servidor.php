@@ -118,7 +118,7 @@ class Servidor
             'filiacaom'      => $filiacaoMae,
             'fepublica'      => (string) ($servidor['fe_publica'] ?? ''),
             'porte'          => strtoupper(trim((string) ($servidor['porte_arma'] ?? ''))),
-            'foto'           => self::urlMidia($servidor['foto_url'] ?? null, '/assets/img/1.png'),
+            'foto'           => self::urlMidia($servidor['foto_url'] ?? null, ''),
             'assinatura'     => self::urlMidia($servidor['assinatura_url'] ?? null, ''),
             'tipo'           => (string) ($servidor['tipo'] ?? ''),
             'situacao'       => (string) ($servidor['situacao'] ?? ''),

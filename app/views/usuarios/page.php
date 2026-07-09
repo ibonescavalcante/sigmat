@@ -7,7 +7,7 @@ $pode_gerir_usuarios = !empty($pode_gerir_usuarios);
 $badgePerfil = static function (string $perfil): string {
     return match ($perfil) {
         'administrador' => 'bg-primary',
-        'comissao' => 'bg-info',
+        'operador' => 'bg-info',
         'visualizador' => 'bg-secondary',
         default => 'bg-secondary',
     };
@@ -123,9 +123,9 @@ $badgePerfil = static function (string $perfil): string {
                                             <div class="col-md-6">
                                                 <label for="nu_usuario" class="form-label">E-mail <span
                                                         class="text-danger">*</span></label>
-                                                <input type="usuario" class="form-control" id="nu_usuario"
+                                                <input type="email" class="form-control" id="nu_usuario"
                                                     name="usuario" required maxlength="180"
-                                                    autocomplete="usuario">
+                                                    autocomplete="email">
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="nu_telefone" class="form-label">Telefone</label>
@@ -208,8 +208,8 @@ $badgePerfil = static function (string $perfil): string {
                                             <div class="col-md-6">
                                                 <label for="eu_usuario" class="form-label">E-mail <span
                                                         class="text-danger">*</span></label>
-                                                <input type="usuario" class="form-control" id="eu_usuario" name="usuario"
-                                                    required maxlength="180" autocomplete="usuario">
+                                                <input type="email" class="form-control" id="eu_usuario" name="usuario"
+                                                    required maxlength="180" autocomplete="email">
                                             </div>
                                             <div class="col-md-6">
                                                 <label for="eu_telefone" class="form-label">Telefone</label>
@@ -354,7 +354,7 @@ $badgePerfil = static function (string $perfil): string {
 
                 btnSalvarNovo.disabled = true;
                 try {
-                    const res = await fetch('/configuracoes/usuario', {
+                    const res = await fetch('/usuarios/usuario', {
                         method: 'POST',
                         credentials: 'same-origin',
                         headers: {
@@ -423,7 +423,7 @@ $badgePerfil = static function (string $perfil): string {
                 document.getElementById('eu_nome').value = u.nome || '';
                 document.getElementById('eu_usuario').value = u.usuario || '';
                 document.getElementById('eu_telefone').value = u.telefone || '';
-                document.getElementById('eu_perfil').value = u.perfil || 'comissao';
+                document.getElementById('eu_perfil').value = u.perfil || 'operador';
                 document.getElementById('eu_ativo').checked = !!u.ativo;
                 document.getElementById('eu_senha').value = '';
                 document.getElementById('eu_senha2').value = '';
@@ -459,7 +459,7 @@ $badgePerfil = static function (string $perfil): string {
 
                 btnSalvarEdit.disabled = true;
                 try {
-                    const res = await fetch('/configuracoes/usuario/atualizar', {
+                    const res = await fetch('/usuarios/usuario/atualizar', {
                         method: 'POST',
                         credentials: 'same-origin',
                         headers: {
