@@ -26,6 +26,7 @@ docker/
 *.pdf
 /uploads
 /uploads/documentos
+/uploads/servidores/
 
 # ========================
 # Dependências (não versionar)
