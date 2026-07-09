@@ -40,3 +40,4 @@ docker/
 .vscode/
 .idea/
 .cursor/
+.cursor
