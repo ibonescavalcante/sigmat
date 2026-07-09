@@ -1,23 +1,7 @@
 version: "3.9"
 
 services:
-  # Postgres
-  # postgres:
-  #   networks:
-  #     - network
-  #   image: postgres:17
-  #   container_name: postgres-container
-  #   restart: always
-  #   environment:
-  #     POSTGRES_USER: root
-  #     POSTGRES_PASSWORD: root
-  #     POSTGRES_DB: dbteste
-  #   ports:
-  #     - "5432:5432"
-  #   volumes:
-  #     - postgres_data:/var/lib/postgresql/data
-
-  # PHP
+ 
   php:
     networks:
       - network
@@ -29,8 +13,7 @@ services:
       - ./:/var/www
       - ./docker/php/local.ini:/usr/local/etc/php/conf.d/local.ini
       - ./docker/php/www.conf:/usr/local/etc/php-fpm.d/www.conf
-      # - /c/Users/Ib0n35/Documents/2025/PROJETOS_DOCKER/TESTE/uploads:/var/www/uploads
-      #- /home/adminsyst/SGPSS/uploads:/var/www/uploads
+
 
   # Nginx
   nginx:
@@ -48,9 +31,6 @@ services:
       - ./docker/nginx/default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - php
-
-# volumes:
-# postgres_data:
 
 networks:
   network:

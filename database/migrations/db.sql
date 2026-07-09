@@ -55,7 +55,7 @@ CREATE TABLE sigmat.servidor (
 	data_emissao date NULL,
 	data_validade date NULL,
 	fe_publica text NULL,
-	porte_arma bool DEFAULT false NOT NULL,
+	porte_arma varchar(50) NULL,
 	tipo_sanguineo varchar(5) NULL,
 	foto_url text NULL,
 	assinatura_url text NULL,

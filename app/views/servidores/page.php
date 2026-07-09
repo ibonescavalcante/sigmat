@@ -208,10 +208,6 @@ $fmtData = static function ($valor): string {
                             <input type="text" class="form-control" id="ns_cpf" name="cpf" required maxlength="14" placeholder="000.000.000-00">
                         </div>
                         <div class="col-md-6">
-                            <label for="ns_cargo" class="form-label">Cargo <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="ns_cargo" name="cargo" required maxlength="120">
-                        </div>
-                        <div class="col-md-6">
                             <label for="ns_situacao" class="form-label">Situação</label>
                             <select class="form-select" id="ns_situacao" name="situacao">
                                 <?php foreach ($situacoes_form as $valor => $label): ?>
@@ -248,6 +244,10 @@ $fmtData = static function ($valor): string {
                         <div class="col-md-4">
                             <label for="ns_data_validade" class="form-label">Data de validade</label>
                             <input type="date" class="form-control" id="ns_data_validade" name="data_validade">
+                            <div class="form-check mt-1">
+                                <input class="form-check-input" type="checkbox" id="ns_validade_indeterminada" name="validade_indeterminada" value="1">
+                                <label class="form-check-label" for="ns_validade_indeterminada">Indeterminado</label>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <label for="ns_filiacao_pai" class="form-label">Filiação (pai)</label>
@@ -261,11 +261,9 @@ $fmtData = static function ($valor): string {
                             <label for="ns_fe_publica" class="form-label">Fé pública</label>
                             <input type="text" class="form-control" id="ns_fe_publica" name="fe_publica" maxlength="120">
                         </div>
-                        <div class="col-md-4 d-flex align-items-end">
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="ns_porte_arma" name="porte_arma" value="1">
-                                <label class="form-check-label" for="ns_porte_arma">Porte de arma</label>
-                            </div>
+                        <div class="col-md-4">
+                            <label for="ns_porte_arma" class="form-label">Porte de arma (código)</label>
+                            <input type="text" class="form-control" id="ns_porte_arma" name="porte_arma" maxlength="50">
                         </div>
                     </div>
                 </div>
@@ -302,14 +300,14 @@ $fmtData = static function ($valor): string {
 </div>
 
 <div class="modal fade" id="modalEditarServidor" tabindex="-1" aria-labelledby="modalEditarServidorLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg modal-dialog-scrollable">
+    <div class="modal-dialog modal-lg modal-dialog-scrollable modal-dialog-centered">
         <div class="modal-content">
-            <div class="modal-header">
-                <h5 class="modal-title" id="modalEditarServidorLabel">Editar servidor</h5>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
-            </div>
-            <form id="formEditarServidor" novalidate enctype="multipart/form-data">
+            <form id="formEditarServidor" class="d-flex flex-column min-h-0" novalidate enctype="multipart/form-data">
                 <input type="hidden" id="es_id" name="id">
+                <div class="modal-header flex-shrink-0">
+                    <h5 class="modal-title" id="modalEditarServidorLabel">Editar servidor</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Fechar"></button>
+                </div>
                 <div class="modal-body">
                     <div id="formEditarServidorErro" class="alert alert-danger d-none" role="alert"></div>
                     <div class="row g-3">
@@ -344,10 +342,6 @@ $fmtData = static function ($valor): string {
                         <div class="col-md-4">
                             <label for="es_cpf" class="form-label">CPF <span class="text-danger">*</span></label>
                             <input type="text" class="form-control" id="es_cpf" name="cpf" required maxlength="14">
-                        </div>
-                        <div class="col-md-6">
-                            <label for="es_cargo" class="form-label">Cargo <span class="text-danger">*</span></label>
-                            <input type="text" class="form-control" id="es_cargo" name="cargo" required maxlength="120">
                         </div>
                         <div class="col-md-6">
                             <label for="es_situacao" class="form-label">Situação</label>
@@ -386,6 +380,10 @@ $fmtData = static function ($valor): string {
                         <div class="col-md-4">
                             <label for="es_data_validade" class="form-label">Data de validade</label>
                             <input type="date" class="form-control" id="es_data_validade" name="data_validade">
+                            <div class="form-check mt-1">
+                                <input class="form-check-input" type="checkbox" id="es_validade_indeterminada" name="validade_indeterminada" value="1">
+                                <label class="form-check-label" for="es_validade_indeterminada">Indeterminado</label>
+                            </div>
                         </div>
                         <div class="col-md-6">
                             <label for="es_filiacao_pai" class="form-label">Filiação (pai)</label>
@@ -399,15 +397,13 @@ $fmtData = static function ($valor): string {
                             <label for="es_fe_publica" class="form-label">Fé pública</label>
                             <input type="text" class="form-control" id="es_fe_publica" name="fe_publica" maxlength="120">
                         </div>
-                        <div class="col-md-4 d-flex align-items-end">
-                            <div class="form-check mb-2">
-                                <input class="form-check-input" type="checkbox" id="es_porte_arma" name="porte_arma" value="1">
-                                <label class="form-check-label" for="es_porte_arma">Porte de arma</label>
-                            </div>
+                        <div class="col-md-4">
+                            <label for="es_porte_arma" class="form-label">Porte de arma (código)</label>
+                            <input type="text" class="form-control" id="es_porte_arma" name="porte_arma" maxlength="50">
                         </div>
                     </div>
                 </div>
-                <div class="modal-footer">
+                <div class="modal-footer flex-shrink-0">
                     <button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal">Cancelar</button>
                     <button type="submit" class="btn btn-primary" id="btnSalvarEditarServidor">
                         <i class="fas fa-save me-2"></i>Salvar alterações
@@ -445,11 +441,13 @@ $fmtData = static function ($valor): string {
 </div>
 
 <style>
-#modalNovoServidor .modal-content > form {
+#modalNovoServidor .modal-content > form,
+#modalEditarServidor .modal-content > form {
     max-height: 100%;
     min-height: 0;
 }
-#modalNovoServidor .modal-body {
+#modalNovoServidor .modal-body,
+#modalEditarServidor .modal-body {
     flex: 1 1 auto;
     min-height: 0;
     overflow-y: auto;
@@ -488,11 +486,40 @@ document.addEventListener('DOMContentLoaded', function() {
         return valor;
     }
 
+    function fmtValidade(valor) {
+        if (!valor) return 'Indeterminado';
+        return fmtDataBr(valor);
+    }
+
+    function configurarValidadeIndeterminada(prefix) {
+        const checkbox = document.getElementById(prefix + '_validade_indeterminada');
+        const inputData = document.getElementById(prefix + '_data_validade');
+        if (!checkbox || !inputData) return;
+
+        function aplicar() {
+            if (checkbox.checked) {
+                inputData.value = '';
+                inputData.disabled = true;
+            } else {
+                inputData.disabled = false;
+            }
+        }
+
+        checkbox.addEventListener('change', aplicar);
+        aplicar();
+    }
+
+    configurarValidadeIndeterminada('ns');
+    configurarValidadeIndeterminada('es');
+
     function montarFormData(formEl) {
         const fd = new FormData(formEl);
-        const porteArma = formEl.querySelector('[name="porte_arma"]');
-        if (porteArma) {
-            fd.set('porte_arma', porteArma.checked ? '1' : '0');
+        const validadeIndet = formEl.querySelector('[name="validade_indeterminada"]');
+        if (validadeIndet) {
+            fd.set('validade_indeterminada', validadeIndet.checked ? '1' : '0');
+            if (validadeIndet.checked) {
+                fd.set('data_validade', 'indeterminado');
+            }
         }
         return fd;
     }
@@ -526,12 +553,12 @@ document.addEventListener('DOMContentLoaded', function() {
     configurarPreviewFoto('es_foto', 'es_foto_preview');
 
     function coletarPayload(prefix) {
+        const validadeIndet = document.getElementById(prefix + '_validade_indeterminada');
         return {
             tipo: document.getElementById(prefix + '_tipo').value,
             matricula: document.getElementById(prefix + '_matricula').value.trim(),
             nome: document.getElementById(prefix + '_nome').value.trim(),
             cpf: document.getElementById(prefix + '_cpf').value.trim(),
-            cargo: document.getElementById(prefix + '_cargo').value.trim(),
             situacao: document.getElementById(prefix + '_situacao').value,
             rg: document.getElementById(prefix + '_rg').value.trim(),
             naturalidade: document.getElementById(prefix + '_naturalidade').value.trim(),
@@ -539,11 +566,12 @@ document.addEventListener('DOMContentLoaded', function() {
             data_nascimento: document.getElementById(prefix + '_data_nascimento').value,
             data_admissao: document.getElementById(prefix + '_data_admissao').value,
             data_emissao: document.getElementById(prefix + '_data_emissao').value,
-            data_validade: document.getElementById(prefix + '_data_validade').value,
+            data_validade: validadeIndet && validadeIndet.checked ? 'indeterminado' : document.getElementById(prefix + '_data_validade').value,
+            validade_indeterminada: validadeIndet ? validadeIndet.checked : false,
             filiacao_pai: document.getElementById(prefix + '_filiacao_pai').value.trim(),
             filiacao_mae: document.getElementById(prefix + '_filiacao_mae').value.trim(),
             fe_publica: document.getElementById(prefix + '_fe_publica').value.trim(),
-            porte_arma: document.getElementById(prefix + '_porte_arma').checked
+            porte_arma: document.getElementById(prefix + '_porte_arma').value.trim()
         };
     }
 
@@ -552,7 +580,6 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById(prefix + '_matricula').value = s.matricula || '';
         document.getElementById(prefix + '_nome').value = s.nome || '';
         document.getElementById(prefix + '_cpf').value = s.cpf || '';
-        document.getElementById(prefix + '_cargo').value = s.cargo || '';
         document.getElementById(prefix + '_situacao').value = s.situacao || 'ativo';
         document.getElementById(prefix + '_rg').value = s.rg || '';
         document.getElementById(prefix + '_naturalidade').value = s.naturalidade || '';
@@ -560,11 +587,28 @@ document.addEventListener('DOMContentLoaded', function() {
         document.getElementById(prefix + '_data_nascimento').value = s.data_nascimento || '';
         document.getElementById(prefix + '_data_admissao').value = s.data_admissao || '';
         document.getElementById(prefix + '_data_emissao').value = s.data_emissao || '';
-        document.getElementById(prefix + '_data_validade').value = s.data_validade || '';
+        const validadeIndet = document.getElementById(prefix + '_validade_indeterminada');
+        const dataValidade = document.getElementById(prefix + '_data_validade');
+        const semValidade = !s.data_validade;
+        if (validadeIndet) {
+            validadeIndet.checked = semValidade;
+            validadeIndet.dispatchEvent(new Event('change'));
+        }
+        if (dataValidade && !semValidade) {
+            dataValidade.value = s.data_validade || '';
+        }
         document.getElementById(prefix + '_filiacao_pai').value = s.filiacao_pai || '';
         document.getElementById(prefix + '_filiacao_mae').value = s.filiacao_mae || '';
         document.getElementById(prefix + '_fe_publica').value = s.fe_publica || '';
-        document.getElementById(prefix + '_porte_arma').checked = !!s.porte_arma;
+        const porteArma = document.getElementById(prefix + '_porte_arma');
+        if (porteArma) {
+            const pa = s.porte_arma;
+            if (pa === true || pa === 't' || pa === '1' || pa === 1) {
+                porteArma.value = 'SIM';
+            } else {
+                porteArma.value = pa ? String(pa) : '';
+            }
+        }
     }
 
     function preencherVisualizacao(s) {
@@ -583,7 +627,7 @@ document.addEventListener('DOMContentLoaded', function() {
             ['Matrícula', s.matricula || '—'],
             ['Nome', s.nome || '—'],
             ['CPF', s.cpf || '—'],
-            ['Cargo', s.cargo || '—'],
+            ['Cargo', tiposLabels[s.tipo] || s.cargo || '—'],
             ['Situação', situacoesLabels[s.situacao] || s.situacao || '—'],
             ['RG', s.rg || '—'],
             ['Naturalidade', s.naturalidade || '—'],
@@ -591,11 +635,15 @@ document.addEventListener('DOMContentLoaded', function() {
             ['Data de nascimento', fmtDataBr(s.data_nascimento)],
             ['Data de admissão', fmtDataBr(s.data_admissao)],
             ['Data de emissão', fmtDataBr(s.data_emissao)],
-            ['Data de validade', fmtDataBr(s.data_validade)],
+            ['Data de validade', fmtValidade(s.data_validade)],
             ['Filiação (pai)', s.filiacao_pai || '—'],
             ['Filiação (mãe)', s.filiacao_mae || '—'],
             ['Fé pública', s.fe_publica || '—'],
-            ['Porte de arma', s.porte_arma ? 'Sim' : 'Não'],
+            ['Porte de arma', (function() {
+                const pa = s.porte_arma;
+                if (pa === true || pa === 't' || pa === '1' || pa === 1) return 'SIM';
+                return pa ? String(pa) : '—';
+            })()],
         ];
 
         const container = document.getElementById('visualizarServidorConteudo');
@@ -745,6 +793,11 @@ document.addEventListener('DOMContentLoaded', function() {
             formNovo?.reset();
             const situacao = document.getElementById('ns_situacao');
             if (situacao) situacao.value = 'ativo';
+            const validadeIndet = document.getElementById('ns_validade_indeterminada');
+            if (validadeIndet) {
+                validadeIndet.checked = false;
+                validadeIndet.dispatchEvent(new Event('change'));
+            }
             atualizarPreviewFoto(null, document.getElementById('ns_foto_preview'), null);
             erroNovo.classList.add('d-none');
             erroNovo.textContent = '';

@@ -74,6 +74,10 @@
     .alert,
     .modal {
         display: none !important;
+        
+    }
+ .modelo {
+        display: none;
     }
 
     body {

@@ -14,7 +14,7 @@ class Servidor
 
     public const TIPOS_LABELS = [
         'GUARDA' => 'Guarda Municipal',
-        'DMTT'   => 'Agente Municipal de Trânsito (DMTT)',
+        'DMTT'   => 'Agente Municipal de Trânsito e Transporte (DMTT)',
     ];
 
     public const SITUACOES_LABELS = [
@@ -109,13 +109,15 @@ class Servidor
             'naturalidade'   => (string) ($servidor['naturalidade'] ?? ''),
             'tipo_sanguineo' => (string) ($servidor['tipo_sanguineo'] ?? ''),
             'emissao'        => $emissao,
-            'validade'       => self::formatarDataBr($servidor['data_validade'] ?? null),
+            'validade'       => ($servidor['data_validade'] ?? null) === null
+                ? 'INDETERMINADO'
+                : self::formatarDataBr($servidor['data_validade']),
             'nascimento'     => self::formatarDataBr($servidor['data_nascimento'] ?? null),
             'admissao'       => self::formatarDataBr($servidor['data_admissao'] ?? null),
             'filiacaop'      => $filiacaoPai,
             'filiacaom'      => $filiacaoMae,
             'fepublica'      => (string) ($servidor['fe_publica'] ?? ''),
-            'porte'          => !empty($servidor['porte_arma']) ? 'SIM' : 'NAO',
+            'porte'          => strtoupper(trim((string) ($servidor['porte_arma'] ?? ''))),
             'foto'           => self::urlMidia($servidor['foto_url'] ?? null, '/assets/img/1.png'),
             'assinatura'     => self::urlMidia($servidor['assinatura_url'] ?? null, ''),
             'tipo'           => (string) ($servidor['tipo'] ?? ''),
@@ -205,7 +207,6 @@ class Servidor
             return false;
         }
 
-        $porteArmaSql = $normalizado['porte_arma'] ? 'TRUE' : 'FALSE';
         $db = Database::getInstance();
         $stmt = $db->prepare(
             'INSERT INTO sigmat.servidor (
@@ -216,15 +217,12 @@ class Servidor
             ) VALUES (
                 CAST(:tipo AS sigmat.tiposervidor), :nome, :matricula, :cpf, :rg, :naturalidade, :data_nascimento,
                 :filiacao_pai, :filiacao_mae, :cargo, :data_admissao, :data_emissao,
-                :data_validade, :fe_publica, ' . $porteArmaSql . ', :tipo_sanguineo, :foto_url, CAST(:situacao AS sigmat.situacao_servidor),
+                :data_validade, :fe_publica, :porte_arma, :tipo_sanguineo, :foto_url, CAST(:situacao AS sigmat.situacao_servidor),
                 TRUE, NOW(), NOW()
             ) RETURNING id'
         );
 
-        $params = $normalizado;
-        unset($params['porte_arma']);
-
-        $ok = $stmt->execute($params);
+        $ok = $stmt->execute($normalizado);
 
         if (!$ok) {
             return false;
@@ -270,7 +268,6 @@ class Servidor
             return false;
         }
 
-        $porteArmaSql = $normalizado['porte_arma'] ? 'TRUE' : 'FALSE';
         $db = Database::getInstance();
         $stmt = $db->prepare(
             'UPDATE sigmat.servidor SET
@@ -288,7 +285,7 @@ class Servidor
                 data_emissao = :data_emissao,
                 data_validade = :data_validade,
                 fe_publica = :fe_publica,
-                porte_arma = ' . $porteArmaSql . ',
+                porte_arma = :porte_arma,
                 tipo_sanguineo = :tipo_sanguineo,
                 foto_url = :foto_url,
                 situacao = CAST(:situacao AS sigmat.situacao_servidor),
@@ -297,7 +294,6 @@ class Servidor
         );
 
         $params = $normalizado;
-        unset($params['porte_arma']);
         $params['id'] = $id;
 
         return (bool) $stmt->execute($params);
@@ -328,7 +324,7 @@ class Servidor
         $nome = isset($dados['nome']) ? trim((string) $dados['nome']) : '';
         $matricula = isset($dados['matricula']) ? trim((string) $dados['matricula']) : '';
         $cpf = isset($dados['cpf']) ? trim((string) $dados['cpf']) : '';
-        $cargo = isset($dados['cargo']) ? trim((string) $dados['cargo']) : '';
+        $cargo = self::TIPOS_LABELS[$tipo] ?? '';
         $situacao = isset($dados['situacao']) ? strtolower(trim((string) $dados['situacao'])) : 'ativo';
 
         if (!in_array($tipo, self::TIPOS_VALIDOS, true)) {
@@ -354,7 +350,7 @@ class Servidor
             'cpf'             => $cpf,
             'cargo'           => $cargo,
             'situacao'        => $situacao,
-            'porte_arma'      => filter_var($dados['porte_arma'] ?? false, FILTER_VALIDATE_BOOLEAN),
+            'porte_arma'      => self::nullableString($dados['porte_arma'] ?? null),
             'rg'              => self::nullableString($dados['rg'] ?? null),
             'naturalidade'    => self::nullableString($dados['naturalidade'] ?? null),
             'filiacao_pai'    => self::nullableString($dados['filiacao_pai'] ?? null),
@@ -364,7 +360,7 @@ class Servidor
             'data_nascimento' => self::parseData($dados['data_nascimento'] ?? null),
             'data_admissao'   => self::parseData($dados['data_admissao'] ?? null),
             'data_emissao'    => self::parseData($dados['data_emissao'] ?? null),
-            'data_validade'   => self::parseData($dados['data_validade'] ?? null),
+            'data_validade'   => self::parseDataValidade($dados),
             'foto_url'        => self::nullableString($dados['foto_url'] ?? null),
         ];
     }
@@ -435,8 +431,7 @@ class Servidor
         $row['id'] = (int) ($row['id'] ?? 0);
         $row['tipo'] = strtoupper(trim((string) ($row['tipo'] ?? '')));
         $row['situacao'] = strtolower(trim((string) ($row['situacao'] ?? 'ativo')));
-        $pa = $row['porte_arma'] ?? false;
-        $row['porte_arma'] = $pa === true || $pa === 't' || $pa === '1' || $pa === 1;
+        $row['porte_arma'] = trim((string) ($row['porte_arma'] ?? ''));
 
         foreach (['data_nascimento', 'data_admissao', 'data_emissao', 'data_validade'] as $campo) {
             if (!empty($row[$campo])) {
@@ -492,5 +487,27 @@ class Servidor
         }
 
         return date('Y-m-d', $ts);
+    }
+
+    /**
+     * @param array<string, mixed> $dados
+     */
+    private static function parseDataValidade(array $dados): ?string
+    {
+        $indeterminada = filter_var($dados['validade_indeterminada'] ?? false, FILTER_VALIDATE_BOOLEAN);
+        if ($indeterminada) {
+            return null;
+        }
+
+        $valor = $dados['data_validade'] ?? null;
+        if ($valor === null || $valor === '') {
+            return null;
+        }
+
+        if (strtolower(trim((string) $valor)) === 'indeterminado') {
+            return null;
+        }
+
+        return self::parseData($valor);
     }
 }

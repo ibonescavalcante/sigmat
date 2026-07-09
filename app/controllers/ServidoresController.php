@@ -235,7 +235,6 @@ class ServidoresController extends Controller
         $nome = isset($input['nome']) ? trim((string) $input['nome']) : '';
         $matricula = isset($input['matricula']) ? trim((string) $input['matricula']) : '';
         $cpf = isset($input['cpf']) ? trim((string) $input['cpf']) : '';
-        $cargo = isset($input['cargo']) ? trim((string) $input['cargo']) : '';
         $tipo = isset($input['tipo']) ? strtoupper(trim((string) $input['tipo'])) : '';
 
         if ($nome === '' || mb_strlen($nome) < 2) {
@@ -246,9 +245,6 @@ class ServidoresController extends Controller
         }
         if ($cpf === '' || !isValidaCPF($cpf)) {
             return 'CPF inválido.';
-        }
-        if ($cargo === '') {
-            return 'Informe o cargo.';
         }
         if (!in_array($tipo, Servidor::TIPOS_VALIDOS, true)) {
             return 'Tipo de servidor inválido.';
