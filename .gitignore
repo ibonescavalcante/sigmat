@@ -33,8 +33,10 @@ docker/
 /vendor/
 /node_modules/
 
+
 # ========================
 # IDEs e editores (opcional)
 # ========================
 .vscode/
 .idea/
+.cursor/
