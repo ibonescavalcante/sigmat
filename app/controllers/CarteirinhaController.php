@@ -23,11 +23,16 @@ class CarteirinhaController extends Controller
         $buscaFiltro = $busca !== '' ? $busca : null;
         $tipoFiltro = $tipo !== '' ? $tipo : null;
 
-        $servidores = Servidor::listar($buscaFiltro, $tipoFiltro);
+        $servidores = [];
+        $servidores_carteirinha = [];
+        if ($tipo !== '') {
+            $servidores = Servidor::listar($buscaFiltro, $tipoFiltro);
+            $servidores_carteirinha = Servidor::listarParaCarteirinha($buscaFiltro, $tipoFiltro);
+        }
 
         $this->view('carteirinha/page', [
             'servidores'             => $servidores,
-            'servidores_carteirinha' => Servidor::listarParaCarteirinha($buscaFiltro, $tipoFiltro),
+            'servidores_carteirinha' => $servidores_carteirinha,
             'busca'                  => $busca,
             'filtro_tipo'            => $tipo,
             'tipos_form'             => Servidor::TIPOS_LABELS,

@@ -9,7 +9,27 @@ $tipos_form = $tipos_form ?? [];
 $situacoes_form = $situacoes_form ?? [];
 $total_servidores = (int) ($total_servidores ?? count($servidores));
 
+// Posicionamento dos campos — modelo DMTT
 $camposCarteirinha = [
+    ['key' => 'foto', 'type' => 'image', 'left' => 12.30, 'top' => 27.50, 'width' => 10.80, 'height' => 40.00],
+    ['key' => 'nome', 'type' => 'text', 'left' => 24.70, 'top' => 32.00, 'width' => 28.72, 'upper' => true],
+    ['key' => 'cargo', 'type' => 'text', 'left' => 24.70, 'top' => 44.20, 'width' => 23.65, 'upper' => true],
+    ['key' => 'emissao', 'type' => 'text', 'left' => 24.70, 'top' => 55.29, 'width' => 10.14, 'upper' => true],
+    ['key' => 'validade', 'type' => 'text', 'left' => 36.70, 'top' => 55.29, 'width' => 8.45, 'upper' => true],
+    ['key' => 'matricula', 'type' => 'text', 'left' => 12.88, 'top' => 76.30, 'width' => 9.29],
+    ['key' => 'cpf', 'type' => 'text', 'left' => 57.00, 'top' => 19.40, 'width' => 10.98],
+    ['key' => 'rg', 'type' => 'text', 'left' => 69.00, 'top' => 19.40, 'width' => 10.98],
+    ['key' => 'nascimento', 'type' => 'text', 'left' => 57.00, 'top' => 29.11, 'width' => 10.98],
+    ['key' => 'naturalidade', 'type' => 'text', 'left' => 69.00, 'top' => 29.11, 'width' => 10.98, 'upper' => true],
+    ['key' => 'tipo_sanguineo', 'type' => 'text', 'left' => 85.00, 'top' => 25.47, 'width' => 10.76, 'height' => 40.00],
+    ['key' => 'filiacaop', 'type' => 'text', 'left' => 57.00, 'top' => 39.50, 'width' => 23.65, 'upper' => true],
+    ['key' => 'filiacaom', 'type' => 'text', 'left' => 57.00, 'top' => 47.00, 'width' => 23.65, 'upper' => true],
+    ['key' => 'fepublica', 'type' => 'text', 'left' => 57.00, 'top' => 58.00, 'width' => 23.65, 'upper' => true],
+    ['key' => 'admissao', 'type' => 'text', 'left' => 57.00, 'top' => 67.90, 'width' => 10.98],
+];
+
+// Posicionamento dos campos — modelo Guarda Municipal
+$camposCarteirinhaGuarda = [
     ['key' => 'foto', 'type' => 'image', 'left' => 12.30, 'top' => 27.50, 'width' => 10.80, 'height' => 40.00],
     ['key' => 'nome', 'type' => 'text', 'left' => 24.70, 'top' => 32.00, 'width' => 28.72, 'upper' => true],
     ['key' => 'cargo', 'type' => 'text', 'left' => 24.70, 'top' => 44.20, 'width' => 23.65, 'upper' => true],
@@ -118,7 +138,13 @@ $badgeSituacao = static function (string $situacao): string {
                             </tr>
                         </thead>
                         <tbody>
-                            <?php if (empty($servidores)): ?>
+                            <?php if ($filtro_tipo === ''): ?>
+                                <tr>
+                                    <td colspan="7" class="text-center text-muted py-4">
+                                        Selecione Guarda Municipal ou DMTT para exibir os servidores.
+                                    </td>
+                                </tr>
+                            <?php elseif (empty($servidores)): ?>
                                 <tr>
                                     <td colspan="7" class="text-center text-muted py-4">
                                         Nenhum servidor encontrado.
@@ -156,7 +182,9 @@ $badgeSituacao = static function (string $situacao): string {
                         </tbody>
                     </table>
                 </div>
-                <div class="text-muted small mt-2">Total: <?= $total_servidores ?> servidor(es)</div>
+                <?php if ($filtro_tipo !== ''): ?>
+                    <div class="text-muted small mt-2">Total: <?= $total_servidores ?> servidor(es)</div>
+                <?php endif; ?>
             </div>
         </div>
     </div>
@@ -180,6 +208,7 @@ $badgeSituacao = static function (string $situacao): string {
 document.addEventListener('DOMContentLoaded', function() {
     const servidoresCarteirinha = <?= json_encode($servidores_carteirinha, JSON_HEX_TAG | JSON_HEX_APOS | JSON_HEX_QUOT | JSON_HEX_AMP | JSON_UNESCAPED_UNICODE) ?>;
     const camposCarteirinha = <?= json_encode($camposCarteirinha, JSON_UNESCAPED_UNICODE) ?>;
+    const camposCarteirinhaGuarda = <?= json_encode($camposCarteirinhaGuarda, JSON_UNESCAPED_UNICODE) ?>;
     const carteirinhasPorPagina = 4;
 
     const checks = document.querySelectorAll('.chk-servidor');
@@ -189,6 +218,17 @@ document.addEventListener('DOMContentLoaded', function() {
     const lista = document.getElementById('carteirinhasLista');
     const listaVazia = document.getElementById('carteirinhasListaVazia');
     const areaPreview = document.getElementById('areaPreviewCarteirinhas');
+    const filtroTipoAtual = <?= json_encode($filtro_tipo, JSON_UNESCAPED_UNICODE) ?>;
+
+    const backgroundsCarteirinha = {
+        GUARDA: '/assets/img/bg-carteirinha_guarda.png',
+        DMTT: '/assets/img/bg-carteirinha.png'
+    };
+
+    const camposPorTipo = {
+        DMTT: camposCarteirinha,
+        GUARDA: camposCarteirinhaGuarda
+    };
 
     const mapaServidores = {};
     servidoresCarteirinha.forEach(function(s) {
@@ -236,18 +276,40 @@ document.addEventListener('DOMContentLoaded', function() {
         return '<div class="campo ' + escapeHtml(campo.key) + '" style="' + style + '">' + escapeHtml(valor) + '</div>';
     }
 
-    function renderFolha(usuario) {
+    function tipoSelecionado() {
+        const radio = document.querySelector('input[name="tipo"]:checked');
+        return radio ? String(radio.value).toUpperCase() : '';
+    }
+
+    function backgroundCarteirinha(tipo) {
+        return backgroundsCarteirinha[tipo] || '';
+    }
+
+    function camposCarteirinhaPorTipo(tipo) {
+        return camposPorTipo[tipo] || [];
+    }
+
+    function renderFolha(usuario, backgroundUrl, campos) {
         let camposHtml = '';
-        camposCarteirinha.forEach(function(campo) {
+        campos.forEach(function(campo) {
             camposHtml += renderCampo(usuario, campo);
         });
         return '<div class="folha">' +
-            '<img src="/assets/img/bg-carteirinha.png" alt="Modelo da carteirinha" class="modelo">' +
+            '<img src="' + escapeHtml(backgroundUrl) + '" alt="Modelo da carteirinha" class="modelo">' +
             camposHtml +
             '</div>';
     }
 
     function gerarCarteirinhas() {
+        const tipo = tipoSelecionado() || String(filtroTipoAtual || '').toUpperCase();
+        const backgroundUrl = backgroundCarteirinha(tipo);
+        const campos = camposCarteirinhaPorTipo(tipo);
+
+        if (!backgroundUrl || campos.length === 0) {
+            alert('Selecione Guarda Municipal ou DMTT antes de gerar as carteirinhas.');
+            return;
+        }
+
         const ids = idsSelecionados();
         const selecionados = ids.map(function(id) { return mapaServidores[id]; }).filter(Boolean);
 
@@ -261,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
             const pagina = selecionados.slice(i, i + carteirinhasPorPagina);
             html += '<div class="pagina-impressao">';
             pagina.forEach(function(usuario) {
-                html += renderFolha(usuario);
+                html += renderFolha(usuario, backgroundUrl, campos);
             });
             html += '</div>';
         }
@@ -284,7 +346,18 @@ document.addEventListener('DOMContentLoaded', function() {
             alert('Gere as carteirinhas antes de imprimir.');
             return;
         }
+        const tipo = tipoSelecionado() || String(filtroTipoAtual || '').toUpperCase();
+        if (!backgroundCarteirinha(tipo) || camposCarteirinhaPorTipo(tipo).length === 0) {
+            alert('Selecione Guarda Municipal ou DMTT antes de imprimir.');
+            return;
+        }
         window.print();
+    });
+
+    document.querySelectorAll('input[name="tipo"]').forEach(function(radio) {
+        radio.addEventListener('change', function() {
+            radio.closest('form').submit();
+        });
     });
 
     atualizarContador();

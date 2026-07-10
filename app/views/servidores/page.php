@@ -263,7 +263,7 @@ $fmtData = static function ($valor): string {
                         </div>
                         <div class="col-md-4">
                             <label for="ns_porte_arma" class="form-label">Porte de arma (código)</label>
-                            <input type="text" class="form-control" id="ns_porte_arma" name="porte_arma" maxlength="50">
+                            <input type="text" class="form-control" id="ns_porte_arma" name="porte_arma" maxlength="50" disabled>
                         </div>
                     </div>
                 </div>
@@ -512,6 +512,34 @@ document.addEventListener('DOMContentLoaded', function() {
     configurarValidadeIndeterminada('ns');
     configurarValidadeIndeterminada('es');
 
+    function aplicarPorteArmaPorTipo(prefix) {
+        const tipoEl = document.getElementById(prefix + '_tipo');
+        const porteEl = document.getElementById(prefix + '_porte_arma');
+        if (!tipoEl || !porteEl) return;
+
+        const tipo = (tipoEl.value || '').toUpperCase();
+        if (tipo === 'GUARDA') {
+            porteEl.disabled = false;
+        } else {
+            if (tipo === 'DMTT') {
+                porteEl.value = '';
+            }
+            porteEl.disabled = true;
+        }
+    }
+
+    function configurarPorteArmaPorTipo(prefix) {
+        const tipoEl = document.getElementById(prefix + '_tipo');
+        if (!tipoEl) return;
+        tipoEl.addEventListener('change', function() {
+            aplicarPorteArmaPorTipo(prefix);
+        });
+        aplicarPorteArmaPorTipo(prefix);
+    }
+
+    configurarPorteArmaPorTipo('ns');
+    configurarPorteArmaPorTipo('es');
+
     function montarFormData(formEl) {
         const fd = new FormData(formEl);
         const validadeIndet = formEl.querySelector('[name="validade_indeterminada"]');
@@ -520,6 +548,10 @@ document.addEventListener('DOMContentLoaded', function() {
             if (validadeIndet.checked) {
                 fd.set('data_validade', 'indeterminado');
             }
+        }
+        const tipoEl = formEl.querySelector('[name="tipo"]');
+        if (tipoEl && tipoEl.value === 'DMTT') {
+            fd.set('porte_arma', '');
         }
         return fd;
     }
@@ -609,6 +641,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 porteArma.value = pa ? String(pa) : '';
             }
         }
+        aplicarPorteArmaPorTipo(prefix);
     }
 
     function preencherVisualizacao(s) {
@@ -798,6 +831,7 @@ document.addEventListener('DOMContentLoaded', function() {
                 validadeIndet.checked = false;
                 validadeIndet.dispatchEvent(new Event('change'));
             }
+            aplicarPorteArmaPorTipo('ns');
             atualizarPreviewFoto(null, document.getElementById('ns_foto_preview'), null);
             erroNovo.classList.add('d-none');
             erroNovo.textContent = '';
