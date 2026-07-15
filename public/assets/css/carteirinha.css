@@ -1,4 +1,4 @@
-/* Carteirinha GMP/DMTT — proporção extraída do PDF (1184×417) */
+/* Carteirinha GMP/DMTT — impressão em matriz A4 (210 × 297 mm) */
 
 .carteirinha-page {
     background: #ececec;
@@ -8,31 +8,29 @@
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2rem;
 }
 
+/* Preview na tela */
 .pagina-impressao {
     display: flex;
     flex-direction: column;
+    gap: 2mm; /* só preview; impressão usa tops absolutos */
     align-items: center;
-    gap: 1.5rem;
-    width: 100%;
 }
 
 .folha {
-    width: 892px;
-    max-width: 100%;
-    aspect-ratio: 1184 / 417;
+    width: 18.1cm;
+    height: 5.9cm;
+    flex-shrink: 0;
     position: relative;
-    margin: 0 auto;
     overflow: hidden;
-    background: #fff;
+    border: 1px solid transparent ;
+    box-sizing: border-box;
 }
 
 .modelo {
-     width: 100%;
-    height: 7.8cm;
-    display: block;
+    width: 100%;
+    height: 100%;
     object-fit: fill;
 }
 
@@ -52,19 +50,15 @@
     position: absolute;
     object-fit: cover;
 }
+/*.folha:nth-child(1) { top: 10mm !important; }
+.folha:nth-child(2) { top: 72mm !important; }
+.folha:nth-child(3) { top: 136mm !important; }
+.folha:nth-child(4) { top: 200mm !important; }*/
 
 .assinatura {
     position: absolute;
     object-fit: contain;
 }
-
-    .carteirinhas-lista-vazia {
-        padding: 2rem 1rem;
-    }
-
-    #areaPreviewCarteirinhas + .carteirinhas-lista .pagina-impressao {
-        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.12);
-    }
 
 @media print {
     header,
@@ -74,10 +68,11 @@
     .alert,
     .modal {
         display: none !important;
-        
     }
- .modelo {
-        display: none;
+
+    /* Matriz pré-impressa: só dados/foto */
+    .modelo {
+        display: none !important;
     }
 
     body {
@@ -100,44 +95,57 @@
         gap: 0;
     }
 
-    /* Uma folha A4 com até 4 carteirinhas empilhadas */
+    /*
+     * Pitch da matriz ≈ 64mm (marca de caneta).
+     * 68/72mm faziam a borda cair abaixo da marca (pior na 3ª/4ª).
+     * !important evita outro CSS/cache sobrescrever o layout de print.
+     */
     .pagina-impressao {
-        width: 200mm;
-        height: 287mm;
-        margin: 0 auto;
-        display: flex;
-        flex-direction: column;
-        justify-content: flex-start;
-        gap: 0;
-        page-break-after: always;
-        page-break-inside: avoid;
+        position: relative !important;
+        width: 210mm !important;
+        height: 297mm !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+        flex-direction: unset !important;
+        gap: 0 !important;
+        page-break-after: always !important;
+        break-after: page !important;
+        overflow: hidden !important;
     }
 
-
     .pagina-impressao:last-child {
-        page-break-after: auto;
+        page-break-after: auto !important;
+        break-after: auto !important;
     }
 
     .folha {
-        width: 100% !important;
-        max-width: 100% !important;
-        height: 25% !important;
-        flex: 0 0 25%;
-        aspect-ratio: unset !important;
+        position: absolute !important;
+        left: 10mm !important;
+        width: 181mm !important;
+        height: 59mm !important;
         margin: 0 !important;
-        page-break-after: unset !important;
-        page-break-inside: avoid;
-        overflow: hidden;
+        padding: 0 !important;
+        border: 1px solid transparent  !important;
+        box-sizing: border-box !important;
+        overflow: hidden !important;
+        flex: none !important;
     }
 
+    /* passo = 64mm (8 + n*64) */
+    .folha:nth-child(1) { top: 8mm !important; left: 10mm !important; }
+    .folha:nth-child(2) { top: 81mm !important; }
+    .folha:nth-child(3) { top: 155mm !important; }
+    .folha:nth-child(4) { top: 229mm !important; }
 
     .campo {
-        font-size: 9px;
+        font-size: 9px !important;
+        line-height: 1 !important;
     }
 
     @page {
-        size: A4 portrait;
-        margin: 5mm;
+        size: 210mm 297mm;
+        margin: 0;
     }
 }
 

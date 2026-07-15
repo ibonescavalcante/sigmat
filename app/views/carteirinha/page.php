@@ -29,23 +29,24 @@ $camposCarteirinha = [
 ];
 
 // Posicionamento dos campos — modelo Guarda Municipal
+// left reduzido (~2%) — textos estavam muito à direita na matriz
 $camposCarteirinhaGuarda = [
-    ['key' => 'foto', 'type' => 'image', 'left' => 12.30, 'top' => 27.50, 'width' => 10.80, 'height' => 40.00],
-    ['key' => 'nome', 'type' => 'text', 'left' => 24.70, 'top' => 32.00, 'width' => 28.72, 'upper' => true],
-    ['key' => 'cargo', 'type' => 'text', 'left' => 24.70, 'top' => 44.20, 'width' => 23.65, 'upper' => true ,'font-size' => 10],
-    ['key' => 'emissao', 'type' => 'text', 'left' => 24.70, 'top' => 55.29, 'width' => 10.14, 'upper' => true],
-    ['key' => 'validade', 'type' => 'text', 'left' => 36.70, 'top' => 55.29, 'width' => 8.45, 'upper' => true],
-    ['key' => 'matricula', 'type' => 'text', 'left' => 12.88, 'top' => 76.30, 'width' => 9.29],
-    ['key' => 'cpf', 'type' => 'text', 'left' => 57.00, 'top' => 19.40, 'width' => 10.98],
-    ['key' => 'rg', 'type' => 'text', 'left' => 69.00, 'top' => 19.40, 'width' => 10.98],
-    ['key' => 'nascimento', 'type' => 'text', 'left' => 57.00, 'top' => 29.11, 'width' => 10.98],
-    ['key' => 'naturalidade', 'type' => 'text', 'left' => 69.00, 'top' => 29.11, 'width' => 10.98, 'upper' => true],
-    ['key' => 'tipo_sanguineo', 'type' => 'text', 'left' => 85.00, 'top' => 25.47, 'width' => 10.76, 'height' => 40.00],
-    ['key' => 'filiacaop', 'type' => 'text', 'left' => 57.00, 'top' => 39.50, 'width' => 23.65, 'upper' => true],
-    ['key' => 'filiacaom', 'type' => 'text', 'left' => 57.00, 'top' => 47.00, 'width' => 23.65, 'upper' => true],
-    ['key' => 'fepublica', 'type' => 'text', 'left' => 57.00, 'top' => 58.00, 'width' => 23.65, 'upper' => true],
-    ['key' => 'admissao', 'type' => 'text', 'left' => 57.00, 'top' => 67.90, 'width' => 10.98],
-    ['key' => 'porte', 'type' => 'text', 'left' => 57.00, 'top' => 83.68, 'width' => 10.98, 'upper' => true],
+    ['key' => 'foto', 'type' => 'image', 'left' => 8.00, 'top' => 24.50, 'width' => 10.80, 'height' => 40.00],
+    ['key' => 'nome', 'type' => 'text', 'left' => 22.50, 'top' => 32.50, 'width' => 28.72, 'upper' => true],
+    ['key' => 'cargo', 'type' => 'text', 'left' => 22.50, 'top' => 46.20, 'width' => 23.65, 'upper' => true, 'font-size' => 10],
+    ['key' => 'emissao', 'type' => 'text', 'left' => 22.50, 'top' => 59.50, 'width' => 10.14, 'upper' => true],
+    ['key' => 'validade', 'type' => 'text', 'left' => 34.50, 'top' => 59.50, 'width' => 8.45, 'upper' => true],
+    ['key' => 'matricula', 'type' => 'text', 'left' => 10.50, 'top' => 85.80, 'width' => 9.29],
+    ['key' => 'cpf', 'type' => 'text', 'left' => 58.50, 'top' => 14.80, 'width' => 10.98],
+    ['key' => 'rg', 'type' => 'text', 'left' => 72.80, 'top' => 14.80, 'width' => 10.98],
+    ['key' => 'nascimento', 'type' => 'text', 'left' => 58.50, 'top' => 27.40, 'width' => 10.98],
+    ['key' => 'naturalidade', 'type' => 'text', 'left' => 72.80, 'top' => 27.40, 'width' => 10.98, 'upper' => true],
+    ['key' => 'tipo_sanguineo', 'type' => 'text', 'left' => 92.00, 'top' => 20.00, 'width' => 10.76, 'height' => 40.00],
+    ['key' => 'filiacaop', 'type' => 'text', 'left' => 58.50, 'top' => 42.80, 'width' => 23.65, 'upper' => true],
+    ['key' => 'filiacaom', 'type' => 'text', 'left' => 58.50, 'top' => 48.20, 'width' => 23.65, 'upper' => true],
+    ['key' => 'fepublica', 'type' => 'text', 'left' => 58.50, 'top' => 62.80, 'width' => 23.65, 'upper' => true],
+    ['key' => 'admissao', 'type' => 'text', 'left' => 58.50, 'top' => 75.80, 'width' => 10.98],
+    ['key' => 'porte', 'type' => 'text', 'left' => 58.50, 'top' => 88.50, 'width' => 10.98, 'upper' => true],
 ];
 
 $labelTipo = static function (string $tipo) use ($tipos_form): string {
@@ -202,7 +203,7 @@ $badgeSituacao = static function (string $situacao): string {
     </div>
 </div>
 
-<link rel="stylesheet" href="/assets/css/carteirinha.css">
+<link rel="stylesheet" href="/assets/css/carteirinha.css?v=20260715-2">
 
 <script>
 document.addEventListener('DOMContentLoaded', function() {
@@ -247,6 +248,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let style = 'left:' + campo.left + '%;top:' + campo.top + '%;';
         if (campo.width) style += 'width:' + campo.width + '%;';
         if (campo.height) style += 'height:' + campo.height + '%;';
+        if (campo['font-size']) style += 'font-size:' + campo['font-size'] + 'px;';
         return style;
     }
 
@@ -321,7 +323,7 @@ document.addEventListener('DOMContentLoaded', function() {
         let html = '';
         for (let i = 0; i < selecionados.length; i += carteirinhasPorPagina) {
             const pagina = selecionados.slice(i, i + carteirinhasPorPagina);
-            html += '<div class="pagina-impressao">';
+            html += '<div class="pagina-impressao" >';
             pagina.forEach(function(usuario) {
                 html += renderFolha(usuario, backgroundUrl, campos);
             });
