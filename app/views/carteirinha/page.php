@@ -155,7 +155,7 @@ $badgeSituacao = static function (string $situacao): string {
                                 <?php foreach ($servidores as $servidor): ?>
                                     <?php
                                     $id = (int) ($servidor['id'] ?? 0);
-                                    $situacao = strtolower(trim((string) ($servidor['situacao'] ?? 'ativo')));
+                                    $situacao = trim((string) ($servidor['situacao'] ?? 'ativo'));
                                     $tipo = (string) ($servidor['tipo'] ?? '');
                                     ?>
                                     <tr>
