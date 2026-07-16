@@ -14,7 +14,7 @@ class Servidor
 
     public const TIPOS_LABELS = [
         'GUARDA' => 'Guarda Municipal',
-        'DMTT'   => 'Agente Municipal de Trânsito e Transporte (DMTT)',
+        'DMTT'   => 'Agente de Trânsito e Transporte',
     ];
 
     public const SITUACOES_LABELS = [
