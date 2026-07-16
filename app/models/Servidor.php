@@ -110,7 +110,7 @@ class Servidor
             'tipo_sanguineo' => (string) ($servidor['tipo_sanguineo'] ?? ''),
             'emissao'        => $emissao,
             'validade'       => ($servidor['data_validade'] ?? null) === null
-                ? 'INDETERMINADO'
+                ? 'Indeterminado'
                 : self::formatarDataBr($servidor['data_validade']),
             'nascimento'     => self::formatarDataBr($servidor['data_nascimento'] ?? null),
             'admissao'       => self::formatarDataBr($servidor['data_admissao'] ?? null),
