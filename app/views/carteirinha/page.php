@@ -26,7 +26,7 @@ $camposCarteirinha = [
     // ['key' => 'filiacaom', 'type' => 'text', 'left' => 54.30, 'top' => 47.00, 'width' => 23.65, 'upper' => true],
     // ['key' => 'fepublica', 'type' => 'text', 'left' => 54.30, 'top' => 56.20, 'width' => 23.65, 'upper' => true],
     // ['key' => 'admissao', 'type' => 'text', 'left' => 54.30, 'top' => 67.90, 'width' => 10.98],
-        ['key' => 'foto', 'type' => 'image', 'left' => 8.00, 'top' => 24.50, 'width' => 10.80, 'height' => 40.00],
+     ['key' => 'foto', 'type' => 'image', 'left' => 8.00, 'top' => 24.50, 'width' => 10.80, 'height' => 40.00],
     ['key' => 'nome', 'type' => 'text', 'left' => 22.50, 'top' => 32.50, 'width' => 28.72, 'upper' => true],
     ['key' => 'cargo', 'type' => 'text', 'left' => 22.50, 'top' => 46.20, 'width' => 23.65, 'upper' => true, 'font-size' => 10],
     ['key' => 'emissao', 'type' => 'text', 'left' => 22.50, 'top' => 59.50, 'width' => 10.14, 'upper' => true],

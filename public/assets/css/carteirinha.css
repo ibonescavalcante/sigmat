@@ -133,7 +133,7 @@
     }
 
     /* passo = 64mm (8 + n*64) */
-    .folha:nth-child(1) { top: 8mm !important; left: 10mm !important; }
+    .folha:nth-child(1) { top: 7mm !important; left: 10mm !important; }
     .folha:nth-child(2) { top: 81mm !important; }
     .folha:nth-child(3) { top: 155mm !important; }
     .folha:nth-child(4) { top: 229mm !important; }
